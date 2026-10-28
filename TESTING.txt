@@ -1,0 +1,50 @@
+Testing and current limits
+==========================
+Node 22+; pnpm; pinned test-only linkedom 0.18.12 (ISC).
+Install: pnpm install --frozen-lockfile --ignore-scripts
+Run: pnpm test
+
+27 pure engine tests verify CSV validation, score parity with 250 actual
+Python predictions, export escaping and limits. They do not validate the
+model on real-world data. Reported performance is synthetic only.
+
+19 integration tests load the actual HTML and three application scripts into
+linkedom and a Node VM. They dispatch DOM click/change events on the real
+registered handlers and inspect resulting DOM state. This covers presets,
+selection, row count, pasted CSV, visible errors, literal user text, reset,
+export Blob contents and asynchronous local-file success/failure/races.
+Export uses a recorded anchor invocation and file selection uses fake File
+objects in these tests. No real file chooser or browser download is invoked.
+The optional WebMCP path is tested when absent, available and rejecting.
+
+An older file-read rejection used to display a stale error after a reset or
+new successful file. The token check now guards both resolution and rejection;
+two regression tests failed before that fix and pass afterward.
+
+These are code tests, not trusted pointer/keyboard input, a browser emulator,
+layout tests, human review or a browser file-picker test. linkedom is a DOM
+implementation; it does not reproduce all native browser behavior.
+
+Separate in-app browser checks rendered the app at 1280 and 390 px, compared
+seven WebMCP state changes with the actual visible DOM, checked the 2,000-row
+limit and verified the downloaded 180-row CSV byte for byte. Ordinary pointer
+and keyboard actions initially did not produce observable state changes,
+including native details expansion on a fresh tab. That historical result is
+retained; its cause was not conclusively isolated.
+
+On the repaired revision, a new in-app browser tab successfully completed
+ordinary semantic button clicks, native details expansion, row selection,
+text filling and keyboard input, valid/invalid CSV analysis, clearing, actual
+local file selection and actual report download. The 180-row downloaded CSV
+again matched the engine output byte for byte. These are AI-driven browser
+interactions, not human review or a test in external Chrome/Edge. The earlier
+failure is not retroactively relabeled as a success. Async file-rejection
+races are deterministically covered by DOM tests, not browser fault injection.
+
+No external browser or native desktop app was used for validation. No customer
+data, human gameplay/listening claim, public contest submission or revenue is
+implied by any of these results.
+
+Dependency source: https://github.com/WebReflection/linkedom
+Dependency license: https://github.com/WebReflection/linkedom/blob/main/LICENSE
+Runtime files in dist require no npm package or third-party network request.

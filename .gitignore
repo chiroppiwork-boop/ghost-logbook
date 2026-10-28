@@ -1,0 +1,5 @@
+__pycache__/
+.deps/
+node_modules/
+*.pyc
+.openai/runtime/

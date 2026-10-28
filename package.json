@@ -1,0 +1,9 @@
+{
+  "name": "ghost-logbook",
+  "version": "0.1.1",
+  "private": true,
+  "license": "MIT",
+  "engines": {"node": ">=22"},
+  "scripts": {"test": "node --test test_engine.js test_dom.js"},
+  "devDependencies": {"linkedom": "0.18.12"}
+}
